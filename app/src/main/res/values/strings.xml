@@ -1,4 +1,16 @@
 <resources>
     <string name="app_name">Mod6_Practica1</string>
-    <string name="description_logo">Car logo\n</string>
+    <string name="description_logo">Car logo</string>
+    <string name="add">Add Car</string>
+    <string name="model">Model</string>
+    <string name="year">Year</string>
+    <string name="price">Price</string>
+    <string name="car_deleted">Car deleted</string>
+    <string name="delete">Delete</string>
+    <string name="car_updated">Car updated</string>
+    <string name="update">Update</string>
+    <string name="cancel">Cancel</string>
+    <string name="car_saved">Car saved</string>
+    <string name="save">Save</string>
+    <string name="brand">Brand</string>
 </resources>

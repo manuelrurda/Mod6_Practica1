@@ -12,13 +12,13 @@ object CarRepository {
         val database = CarDatabase.getDatabase(context)
         carDao = database.carDao()
     }
-    
+
     suspend fun insertCar(car: CarEntity) {
         carDao.insertCar(car)
     }
 
     suspend fun getAllCars(): List<CarEntity> {
-        return carDao.getAllCars()
+        return carDao.getAllCars().toList()
     }
 
     suspend fun updateCar(car: CarEntity) {

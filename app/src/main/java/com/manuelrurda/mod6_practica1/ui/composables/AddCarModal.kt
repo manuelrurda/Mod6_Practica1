@@ -26,9 +26,11 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
+import com.manuelrurda.mod6_practica1.R
 import com.manuelrurda.mod6_practica1.data.CarRepository
 import com.manuelrurda.mod6_practica1.data.db.model.CarBrand
 import com.manuelrurda.mod6_practica1.data.db.model.CarEntity
@@ -64,7 +66,7 @@ fun CarDialog(showDialog: Boolean, onDismiss: () -> Unit, initialData: CarEntity
                     modifier = Modifier.padding(16.dp),
                     verticalArrangement = Arrangement.spacedBy(12.dp)
                 ) {
-                    Text("Add Car", style = MaterialTheme.typography.titleMedium)
+                    Text(stringResource(R.string.add), style = MaterialTheme.typography.titleMedium)
 
                     ExposedDropdownMenuBox(
                         expanded = expanded,
@@ -74,7 +76,7 @@ fun CarDialog(showDialog: Boolean, onDismiss: () -> Unit, initialData: CarEntity
                             value = selectedBrand,
                             onValueChange = {},
                             readOnly = true,
-                            label = { Text("Brand") },
+                            label = { Text(stringResource(R.string.brand)) },
                             trailingIcon = {
                                 ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded)
                             },
@@ -102,7 +104,7 @@ fun CarDialog(showDialog: Boolean, onDismiss: () -> Unit, initialData: CarEntity
                     OutlinedTextField(
                         value = carModel,
                         onValueChange = { carModel = it },
-                        label = { Text("Model") },
+                        label = { Text(stringResource(R.string.model)) },
                         modifier = Modifier.fillMaxWidth()
                     )
 
@@ -113,7 +115,7 @@ fun CarDialog(showDialog: Boolean, onDismiss: () -> Unit, initialData: CarEntity
                                 year = it
                             }
                         },
-                        label = { Text("Year") },
+                        label = { Text(stringResource(R.string.year)) },
                         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                         modifier = Modifier.fillMaxWidth()
                     )
@@ -125,7 +127,7 @@ fun CarDialog(showDialog: Boolean, onDismiss: () -> Unit, initialData: CarEntity
                                 price = it
                             }
                         },
-                        label = { Text("Price") },
+                        label = { Text(stringResource(R.string.price)) },
                         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                         modifier = Modifier.fillMaxWidth()
                     )
@@ -140,33 +142,38 @@ fun CarDialog(showDialog: Boolean, onDismiss: () -> Unit, initialData: CarEntity
                                     CarRepository.deleteCar(initialData.id)
                                     onDismiss()
                                 }
-                                Toast.makeText(context, "Car deleted", Toast.LENGTH_SHORT).show()
+                                Toast.makeText(context, R.string.car_deleted, Toast.LENGTH_SHORT)
+                                    .show()
                             }) {
-                                Text("Delete")
+                                Text(stringResource(R.string.delete))
                             }
                             Button(onClick = {
-                                initialData.model = carModel
-                                initialData.year = year.toInt()
-                                initialData.price = price.toDouble()
+                                val car = CarEntity(
+                                    id = initialData.id,
+                                    brand = selectedBrand,
+                                    model = carModel,
+                                    year = year.toInt(),
+                                    price = price.toDouble()
+                                )
 
                                 coroutineScope.launch {
                                     async {
-                                        CarRepository.updateCar(initialData)
+                                        CarRepository.updateCar(car)
                                     }.await()
                                     onDismiss()
                                 }
                                 Toast.makeText(
                                     context,
-                                    "Car updated",
+                                    R.string.car_updated,
                                     Toast.LENGTH_SHORT
                                 ).show()
                             }, enabled = isFormValid) {
-                                Text("Update")
+                                Text(stringResource(R.string.update))
                             }
 
                         } else {
                             TextButton(onClick = onDismiss) {
-                                Text("Cancel")
+                                Text(stringResource(R.string.cancel))
                             }
                             Button(onClick = {
                                 val car = CarEntity(
@@ -179,9 +186,10 @@ fun CarDialog(showDialog: Boolean, onDismiss: () -> Unit, initialData: CarEntity
                                     CarRepository.insertCar(car)
                                     onDismiss()
                                 }
-                                Toast.makeText(context, "Car saved", Toast.LENGTH_SHORT).show()
+                                Toast.makeText(context, R.string.car_saved, Toast.LENGTH_SHORT)
+                                    .show()
                             }, enabled = isFormValid) {
-                                Text("Save")
+                                Text(stringResource(R.string.save))
                             }
                         }
                     }

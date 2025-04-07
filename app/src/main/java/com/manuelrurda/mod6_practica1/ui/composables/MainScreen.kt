@@ -1,5 +1,6 @@
 package com.manuelrurda.mod6_practica1.ui.composables
 
+import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
@@ -21,8 +22,10 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.manuelrurda.mod6_practica1.R
 import com.manuelrurda.mod6_practica1.data.CarRepository
 import com.manuelrurda.mod6_practica1.data.db.model.CarBrand
 import com.manuelrurda.mod6_practica1.data.db.model.CarEntity
@@ -65,7 +68,7 @@ fun MainScreen() {
                 .align(Alignment.BottomEnd)
                 .padding(16.dp)
         ) {
-            Icon(Icons.Filled.Add, "Add car")
+            Icon(Icons.Filled.Add, stringResource(R.string.add))
         }
 
         if (showDialog) {

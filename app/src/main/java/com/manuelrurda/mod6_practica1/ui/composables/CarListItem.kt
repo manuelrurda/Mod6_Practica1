@@ -3,7 +3,6 @@ package com.manuelrurda.mod6_practica1.ui.composables
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -11,7 +10,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
-import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.Text
@@ -29,11 +27,10 @@ import com.manuelrurda.mod6_practica1.R
 import com.manuelrurda.mod6_practica1.data.db.model.CarBrand
 import com.manuelrurda.mod6_practica1.data.db.model.CarEntity
 import com.manuelrurda.mod6_practica1.ui.theme.Gray
-import com.manuelrurda.mod6_practica1.ui.theme.PurpleGrey80
 import com.manuelrurda.mod6_practica1.utils.formatPrice
 
 @Composable
-fun CarListItem(car: CarEntity, onClick: (car: CarEntity) -> Unit = {}){
+fun CarListItem(car: CarEntity, onClick: (car: CarEntity) -> Unit = {}) {
     val carLogo = when (car.brand) {
         CarBrand.MERCEDES.displayName -> R.drawable.mercedes
         CarBrand.LEXUS.displayName -> R.drawable.lexus
@@ -48,10 +45,16 @@ fun CarListItem(car: CarEntity, onClick: (car: CarEntity) -> Unit = {}){
             onClick(car)
         },
         elevation = CardDefaults.cardElevation(
-        defaultElevation = 6.dp,
-    ),) {
-        Row(modifier = Modifier.fillMaxWidth().padding(10.dp), horizontalArrangement = Arrangement.SpaceBetween) {
-            Row{
+            defaultElevation = 6.dp,
+        ),
+    ) {
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(10.dp),
+            horizontalArrangement = Arrangement.SpaceBetween
+        ) {
+            Row {
                 Image(
                     painter = painterResource(carLogo),
                     contentDescription = stringResource(id = R.string.description_logo),
@@ -63,7 +66,10 @@ fun CarListItem(car: CarEntity, onClick: (car: CarEntity) -> Unit = {}){
                 Spacer(modifier = Modifier.width(10.dp))
                 Column {
                     Text(car.brand, style = TextStyle(fontWeight = FontWeight.Bold))
-                    Text("${car.model} • ${car.year}", style = TextStyle(fontSize = 12.sp, color = Gray))
+                    Text(
+                        "${car.model} • ${car.year}",
+                        style = TextStyle(fontSize = 12.sp, color = Gray)
+                    )
                 }
             }
             Text("$ ${formatPrice(car.price)}")
@@ -74,7 +80,7 @@ fun CarListItem(car: CarEntity, onClick: (car: CarEntity) -> Unit = {}){
 
 @Preview(showBackground = true)
 @Composable
-fun CarListItemPreview(){
+fun CarListItemPreview() {
     val car = CarEntity(
         id = 1,
         brand = CarBrand.MERCEDES.displayName,
@@ -82,5 +88,5 @@ fun CarListItemPreview(){
         year = 2020,
         price = 45000.0
     )
-    CarListItem(car=car)
+    CarListItem(car = car)
 }
