@@ -48,11 +48,12 @@ fun CarDialog(showDialog: Boolean, onDismiss: () -> Unit, initialData: CarEntity
     var price by remember { mutableStateOf(initialData?.price?.toString() ?: "") }
     val coroutineScope = rememberCoroutineScope()
 
+    val isBrandValid = selectedBrand.isNotEmpty()
     val isModelValid = carModel.trim().isNotEmpty()
     val isYearValid = year.toIntOrNull() != null && year.length == 4 && year.toInt() in 1800..2025
     val isPriceValid = price.toDoubleOrNull() != null
 
-    val isFormValid = isModelValid && isYearValid && isPriceValid
+    val isFormValid = isModelValid && isYearValid && isPriceValid && isBrandValid
 
     if (showDialog) {
         Dialog(onDismissRequest = onDismiss) {
@@ -82,7 +83,17 @@ fun CarDialog(showDialog: Boolean, onDismiss: () -> Unit, initialData: CarEntity
                             },
                             modifier = Modifier
                                 .menuAnchor()
-                                .fillMaxWidth()
+                                .fillMaxWidth(),
+                            isError = !isBrandValid,
+                            supportingText = {
+                                if (!isBrandValid) {
+                                    Text(
+                                        modifier = Modifier.fillMaxWidth(),
+                                        text = stringResource(R.string.brand_required),
+                                        color = MaterialTheme.colorScheme.error
+                                    )
+                                }
+                            }
                         )
 
                         ExposedDropdownMenu(
@@ -105,7 +116,17 @@ fun CarDialog(showDialog: Boolean, onDismiss: () -> Unit, initialData: CarEntity
                         value = carModel,
                         onValueChange = { carModel = it },
                         label = { Text(stringResource(R.string.model)) },
-                        modifier = Modifier.fillMaxWidth()
+                        modifier = Modifier.fillMaxWidth(),
+                        isError = !isModelValid,
+                        supportingText = {
+                            if (!isModelValid) {
+                                Text(
+                                    modifier = Modifier.fillMaxWidth(),
+                                    text = stringResource(R.string.model_required),
+                                    color = MaterialTheme.colorScheme.error
+                                )
+                            }
+                        }
                     )
 
                     OutlinedTextField(
@@ -117,7 +138,17 @@ fun CarDialog(showDialog: Boolean, onDismiss: () -> Unit, initialData: CarEntity
                         },
                         label = { Text(stringResource(R.string.year)) },
                         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
-                        modifier = Modifier.fillMaxWidth()
+                        modifier = Modifier.fillMaxWidth(),
+                        isError = !isYearValid,
+                        supportingText = {
+                            if (!isYearValid) {
+                                Text(
+                                    modifier = Modifier.fillMaxWidth(),
+                                    text = stringResource(R.string.year_required),
+                                    color = MaterialTheme.colorScheme.error
+                                )
+                            }
+                        }
                     )
 
                     OutlinedTextField(
@@ -129,7 +160,17 @@ fun CarDialog(showDialog: Boolean, onDismiss: () -> Unit, initialData: CarEntity
                         },
                         label = { Text(stringResource(R.string.price)) },
                         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
-                        modifier = Modifier.fillMaxWidth()
+                        modifier = Modifier.fillMaxWidth(),
+                        isError = !isPriceValid,
+                        supportingText = {
+                            if (!isYearValid) {
+                                Text(
+                                    modifier = Modifier.fillMaxWidth(),
+                                    text = stringResource(R.string.price_required),
+                                    color = MaterialTheme.colorScheme.error
+                                )
+                            }
+                        }
                     )
 
                     Row(

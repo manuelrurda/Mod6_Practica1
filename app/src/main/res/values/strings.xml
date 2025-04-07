@@ -13,4 +13,8 @@
     <string name="car_saved">Car saved</string>
     <string name="save">Save</string>
     <string name="brand">Brand</string>
+    <string name="brand_required">Brand is required</string>
+    <string name="model_required">Model is required</string>
+    <string name="year_required">Year is required</string>
+    <string name="price_required">Price is required</string>
 </resources>
